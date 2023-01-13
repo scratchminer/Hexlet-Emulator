@@ -1,19 +1,25 @@
 /* Source file for Hexlet's assembler */
 
-
 #include <ctype.h>
+#include <errno.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+#include <hexlet_ints.h>
+#include <hexlet_errs.h>
+
+#include "assembler.h"
+
+char asm_errorString[err_MAX_ERR_SIZE];
+
 char *asm_getError(void) {
-	
+	return asm_errorString;
 }
 
-u16 asm_decode_constant(char *number) {
-	
-	
+u32 asm_decodeConstant(char *number) {
 	char *copy = number;
-	u8 base = 10;
+	u8 base = 0;
 	
 	/* Make sure the prefix is stripped from the number, then predict its base */
 	if(!isxdigit(*copy)) {
@@ -25,20 +31,17 @@ u16 asm_decode_constant(char *number) {
 			base = 16;
 			break;
 		default:
-			
-			return 0;
+			break;
 		}
-		
-		++arg;
+		++copy;
 	}
-	else if(strchr(copy, 'x')) {
-		base = 16;
-	}
-	else if(strchr(copy, 'b')) {
-		base = 2;
-	}
-
-	/* Needed for strtol(), but unused */
+	
+	/* Needed for strtol(), but unused afterward */
 	char *strPart;
-	return (u16)strtol(copy, &strPart, base);
+	
+	errno = 0;
+	u32 ret = (u32)strtol(copy, &strPart, base);
+	
+	if(errno) snprintf(asm_errorString, err_MAX_ERR_SIZE, "Error decoding number with base %i: %s", base, number);
+	return ret;
 }
