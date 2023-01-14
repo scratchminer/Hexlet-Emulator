@@ -14,6 +14,8 @@ set(HEXLET_VERSION_BUILD "1")
 
 set(DRIVER "sdl2")
 
+# DO NOT EDIT BELOW THIS LINE
+
 project(Hexlet VERSION "${HEXLET_VERSION_MAJOR}.${HEXLET_VERSION_MINOR}.${HEXLET_VERSION_BUILD}" LANGUAGES C)
 
 message("Hexlet build target: ${CMAKE_SYSTEM_NAME}")
@@ -22,6 +24,7 @@ message("Hexlet version: ${PROJECT_VERSION}")
 function(use_driver name)
 	message("Attempting to find driver '${name}'...")
 	if(EXISTS ${DRIVER_DIR}/${name}/CMakeLists.txt)
+		# drivers with CMake required
 		add_subdirectory(${DRIVER_DIR}/${name})
 	else()
 		# drivers with no external dependencies
