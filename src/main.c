@@ -18,7 +18,7 @@ boolean main_nintendoControllerMap = FALSE;
 u8 main_displayScale = 1;
 u8 main_usedHiveCraftVersion;
 
-void main_logDesc(void) {
+static inline void main_logDesc(void) {
 	log_printInfo("Hexlet v%s", ver_CURRENT_VERSION_STRING());
 	log_printInfo("A Hexheld emulator with a focus on performance and optimization");
 	log_printInfo("By scratchminer (https://github.com/scratchminer)");

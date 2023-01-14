@@ -24,7 +24,6 @@ char *ver_getVersionString(ver_Version *version);
 *  Get the running version of Hexlet as a ver_Version.
 */
 ver_Version *ver_getLatestVersion();
-// returns &ver_emulatorVersions[ver_LATEST_VERSION - 1]
 
 /*
 *  Macros to help with Hexlet version decoding.

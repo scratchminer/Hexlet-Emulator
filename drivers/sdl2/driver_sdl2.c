@@ -5,6 +5,7 @@
 #include <SDL.h>
 
 #include <hexlet_driver.h>
+#include <hexlet_errs.h>
 #include <hexlet_loader.h>
 
 #define SCREEN_WIDTH 640
@@ -13,7 +14,7 @@
 SDL_Window *sdlWindow;
 SDL_Surface *sdlSurf;
 
-char lastError[1024];
+char lastError[err_MAX_ERR_SIZE];
 
 char *drv_getError(void) {
 	return lastError;
