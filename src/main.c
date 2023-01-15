@@ -19,8 +19,11 @@ u8 main_usedHiveCraftVersion;
 
 static inline void main_logDesc(void) {
 	char version[128];
-	snprintf(version, sizeof(version), "Hexlet v%s", ver_CURRENT_VERSION_STRING());
+	char versionNum[16];
 	
+	snprintf(version, sizeof(version), "Hexlet v%s", ver_getVersionString(versionNum, ver_getLatestVersion()));
+	
+	log_printInfo("");
 	log_printInfo(version);
 	log_printInfo("A Hexheld emulator with a focus on performance and optimization");
 	log_printInfo("By scratchminer (https://github.com/scratchminer)");
@@ -76,6 +79,7 @@ s32 main_parseArgs(s32 argc, char **argv) {
 			
 			log_printInfo("Command line options:");
 			log_startTable(2);
+			log_printTableRow("-");
 			log_printTable("--help, -h", 		"Display this message and exit");
 			log_printTable("--version, -v", 	"Display detailed version information and exit");
 			log_printTable("--credits, -c", 	"Display credits and exit");
@@ -84,11 +88,11 @@ s32 main_parseArgs(s32 argc, char **argv) {
 			log_printTable("--disasm, -d", 		"Disassemble the input file and print the output");
 			log_printTable("--launch, -l", 		"Launch (assemble and run) the input file");
 			log_printTableRow(" ");
-			log_printTable("--soc <version>"	"Perform the task using the HiveCraft system-on-chip version specified");
+			log_printTable("--soc <version>",	"Perform the task using the HiveCraft version specified");
 			log_printTable("--scale 2, -2", 	"Upscale the display by a factor of 2");
 			log_printTable("--scale 3, -3", 	"Upscale the display by a factor of 3");
 			log_printTable("--scale 4, -4", 	"Upscale the display by a factor of 4");
-			log_printTable("--ninmap, -n", 		"Make the controller bindings friendlier to Nintendo controllers (-n -b for altered bindings)");
+			log_printTable("--ninmap, -n", 		"Make the controller bindings friendlier to Nintendo controllers");
 			log_endTable();
 			log_printInfo("");
 			
@@ -102,10 +106,10 @@ s32 main_parseArgs(s32 argc, char **argv) {
 			char buildVersion[128];
 			char hiveCraftVersion[128];
 			
-			snprintf(majorVersion, sizeof(majorVersion), "Hexlet major version number: %i ($%1X)", ver_CURRENT_MAJOR_VERSION(), ver_CURRENT_MAJOR_VERSION());
-			snprintf(minorVersion, sizeof(minorVersion), "Hexlet minor version number: %i ($%1X)", ver_CURRENT_MINOR_VERSION(), ver_CURRENT_MINOR_VERSION());
-			snprintf(buildVersion, sizeof(buildVersion), "Hexlet build version number: %i ($%1X)", ver_CURRENT_BUILD_VERSION(), ver_CURRENT_BUILD_VERSION());
-			snprintf(hiveCraftVersion, sizeof(hiveCraftVersion), "Latest HiveCraft version supported: %i (--soc $%2X)", ver_MAX_HIVECRAFT_VERSION(), ver_MAX_HIVECRAFT_VERSION());
+			snprintf(majorVersion, sizeof(majorVersion), "Hexlet major version number: %i ($%01X)", ver_CURRENT_MAJOR_VERSION(), ver_CURRENT_MAJOR_VERSION());
+			snprintf(minorVersion, sizeof(minorVersion), "Hexlet minor version number: %i ($%01X)", ver_CURRENT_MINOR_VERSION(), ver_CURRENT_MINOR_VERSION());
+			snprintf(buildVersion, sizeof(buildVersion), "Hexlet build version number: %i ($%01X)", ver_CURRENT_BUILD_VERSION(), ver_CURRENT_BUILD_VERSION());
+			snprintf(hiveCraftVersion, sizeof(hiveCraftVersion), "Latest HiveCraft version supported: %i (--soc $%02X)", ver_MAX_HIVECRAFT_VERSION(), ver_MAX_HIVECRAFT_VERSION());
 			
 			log_printInfo(majorVersion);
 			log_printInfo(minorVersion);
@@ -140,7 +144,7 @@ s32 main_parseArgs(s32 argc, char **argv) {
 			log_startTable(3);
 			log_printTable("Keyboard",	"Controller",				"Action");
 			log_printTableRow("-");
-			log_printTable("6",		"Home or Guide",			"Toggle Display Mode (horizontal/vertical)");
+			log_printTable("6",		"Home or Guide",			"Toggle Display Mode (horiz/vert)");
 			log_printTable("Esc",		"+ or Start",				"Pause button");
 			log_printTable("Space",		"- or Back",				"Select button");
 			log_printTable("-",		"L, L1, or LB",				"- button");
@@ -153,12 +157,10 @@ s32 main_parseArgs(s32 argc, char **argv) {
 			log_startTable(3);
 			log_printTable("Keyboard",	"Controller",					"Action");
 			log_printTableRow("-");
-			log_printTable("T",		"Left Stick Press",				"Cycle controller (none/D-pad/Buttons/Paddle)");
-			log_printTable("Q",		"ZL, L2, or LT",				"Trigger button (on all controllers)");
-			log_printTableRow(" ");
+			log_printTable("T",		"Left Stick Press",				"Cycle controller type");
+			log_printTable("Q",		"ZL, L2, or LT",				"Trigger button (all controllers)");
 			
 			log_printTable("W/A/S/D",	"Left Stick or Up/Left/Down/Right",		"D-pad (D-pad Controller)");
-			log_printTableRow(" ");
 			
 			if(!main_nintendoControllerMap) {
 				log_printTable("Z/X/A/S",	"Down/Right/Left/Up",				"A/B/1/2 buttons (Button Controller)");
@@ -166,9 +168,8 @@ s32 main_parseArgs(s32 argc, char **argv) {
 			else {
 				log_printTable("Z/X/A/S",	"Right/Down/Up/Left",				"A/B/1/2 buttons (Button Controller)");
 			}
-			log_printTableRow(" ");
 	
-			log_printTable("A/S",		"Press Left/Up or rotate Left Stick CCW/CW",	"Paddle rotate CCW/CW (Paddle Controller)");
+			log_printTable("A/S",		"Left/Up or rotate Left Stick",			"Paddle CCW/CW (Paddle Controller)");
 			log_printTable("Z/X",		"Down/Right",					"A/B buttons (Paddle Controller)");
 			log_printTable("Z/X",		"Right/Down",					"A/B buttons (Paddle Controller)");
 			log_endTable();
@@ -178,12 +179,10 @@ s32 main_parseArgs(s32 argc, char **argv) {
 			log_startTable(3);
 			log_printTable("Keyboard",	"Controller",					"Action");
 			log_printTableRow("-");
-			log_printTable("Y",		"Right Stick Press",				"Cycle controller (none/D-pad/Buttons/Paddle)");
-			log_printTable("P",		"ZR, R2, or RT",				"Trigger button (on all controllers)");
-			log_printTableRow(" ");
+			log_printTable("Y",		"Right Stick Press",				"Cycle controller type");
+			log_printTable("P",		"ZR, R2, or RT",				"Trigger button (all controllers)");
 			
 			log_printTable("I/J/K/L",	"Right Stick or Up/Left/Down/Right",		"D-pad (D-pad Controller)");
-			log_printTableRow(" ");
 			
 			if(!main_nintendoControllerMap) {
 				log_printTable(",/./K/L",	"A/B/X/Y (or X/O/Square/Triangle)",		"A/B/1/2 buttons (Button Controller)");
@@ -191,14 +190,13 @@ s32 main_parseArgs(s32 argc, char **argv) {
 			else {
 				log_printTable(",/./K/L",	"A/B/X/Y",					"A/B/1/2 buttons (Button Controller)");
 			}
-			log_printTableRow(" ");
 			
 			if(!main_nintendoControllerMap) {
-				log_printTable("K/L",		"Press X/Y (or Square/Triangle)",		"Paddle rotate CCW/CW (Paddle Controller)");
-				log_printTable("",		"Rotate Left Stick CCW/CW",			"");
+				log_printTable("K/L",		"X/Y (or Square/Triangle)",		"Paddle CCW/CW (Paddle Controller)");
+				log_printTable("",		"Rotate Left Stick",			"");
 			}
 			else {
-				log_printTable("K/L",		"Press Y/X or rotate Left Stick CCW/CW",	"Paddle rotate CCW/CW (Paddle Controller)");
+				log_printTable("K/L",		"Y/X or rotate Left Stick",		"Paddle CCW/CW (Paddle Controller)");
 			}
 			log_printTable(",/.",		"A/B",						"A/B buttons (Paddle Controller)");
 			log_endTable();
@@ -244,6 +242,8 @@ s32 main_parseArgs(s32 argc, char **argv) {
 }
 
 int main(int argc, char **argv) {
+	/* gotta do this at runtime... */
+	ver_initVersionDatabase();
 	main_usedHiveCraftVersion = ver_MAX_HIVECRAFT_VERSION();
 	
 	u32 exitCode = main_parseArgs((s32)argc, argv);
@@ -252,4 +252,6 @@ int main(int argc, char **argv) {
 		log_printError("Command line argument parsing failed.");
 		return -1;
 	}
+	
+	return 0;
 }

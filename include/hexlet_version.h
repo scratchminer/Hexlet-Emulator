@@ -16,9 +16,9 @@ typedef struct {
 ver_Version ver_emulatorVersions[ver_LATEST_VERSION];
 
 /*
-*  Get the human-readable version string corresponding to the given ver_Version.
+*  Get the human-readable version string corresponding to the given ver_Version and place it into the destination.
 */
-char *ver_getVersionString(ver_Version *version);
+char *ver_getVersionString(char *dest, ver_Version *version);
 
 /*
 *  Get the running version of Hexlet as a ver_Version.
@@ -44,6 +44,5 @@ ver_Version *ver_getLatestVersion();
 #define ver_CURRENT_MAJOR_VERSION() ver_MAJOR_VERSION(ver_getLatestVersion()->versionNumber)
 #define ver_CURRENT_MINOR_VERSION() ver_MINOR_VERSION(ver_getLatestVersion()->versionNumber)
 #define ver_CURRENT_BUILD_VERSION() ver_BUILD_VERSION(ver_getLatestVersion()->versionNumber)
-#define ver_CURRENT_VERSION_STRING() ver_getVersionString(ver_getLatestVersion())
 
 #endif
