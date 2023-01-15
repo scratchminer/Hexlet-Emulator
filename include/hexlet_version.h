@@ -26,16 +26,17 @@ char *ver_getVersionString(ver_Version *version);
 ver_Version *ver_getLatestVersion();
 
 /*
-*  Macros to help with Hexlet version decoding.
+*  Macros to help with version number decoding.
 */
 #define ver_MAJOR_VERSION(VERSION_NUMBER) (u8)(VERSION_NUMBER >> 8)
 #define ver_MINOR_VERSION(VERSION_NUMBER) (u8)((VERSION_NUMBER >> 4) & 0xf)
 #define ver_BUILD_VERSION(VERSION_NUMBER) (u8)(VERSION_NUMBER & 0xf)
 
 /* 
-*  Macro to help with HiveCraft version decoding.
+*  Macros to help with version capability decoding.
 */
 #define ver_MAX_HIVECRAFT_VERSION() ver_getLatestVersion()->maxHiveCraftVersion
+#define ver_MAX_CHIP_TYPE() ver_getLatestVersion()->maxChipType
 
 /*
 *  Macros to get the current version numbers.

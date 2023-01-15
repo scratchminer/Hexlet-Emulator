@@ -1,16 +1,15 @@
 /* Main source file for Hexlet */
 
 #include <ctype.h>
-#include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 
 #include <hexlet_ints.h>
 #include <hexlet_bools.h>
-
 #include <hexlet_driver.h>
 
 #include "assembler.h"
-//#include "logger.h"
+#include "logger.h"
 #include "version.h"
 
 /* Various command line arguments */
@@ -19,7 +18,10 @@ u8 main_displayScale = 1;
 u8 main_usedHiveCraftVersion;
 
 static inline void main_logDesc(void) {
-	log_printInfo("Hexlet v%s", ver_CURRENT_VERSION_STRING());
+	char version[128];
+	snprintf(version, sizeof(version), "Hexlet v%s", ver_CURRENT_VERSION_STRING());
+	
+	log_printInfo(version);
 	log_printInfo("A Hexheld emulator with a focus on performance and optimization");
 	log_printInfo("By scratchminer (https://github.com/scratchminer)");
 	log_printInfo("");
@@ -95,12 +97,22 @@ s32 main_parseArgs(s32 argc, char **argv) {
 		else if(arg[0] == 'v' || !strcmp(arg, "--version")) {
 			main_logDesc();
 			
-			log_printInfo("Hexlet major version number: %i ($%1X)", ver_CURRENT_MAJOR_VERSION(), ver_CURRENT_MAJOR_VERSION());
-			log_printInfo("Hexlet minor version number: %i ($%1X)", ver_CURRENT_MINOR_VERSION(), ver_CURRENT_MINOR_VERSION());
-			log_printInfo("Hexlet build version number: %i ($%1X)", ver_CURRENT_BUILD_VERSION(), ver_CURRENT_BUILD_VERSION());
+			char majorVersion[128];
+			char minorVersion[128];
+			char buildVersion[128];
+			char hiveCraftVersion[128];
+			
+			snprintf(majorVersion, sizeof(majorVersion), "Hexlet major version number: %i ($%1X)", ver_CURRENT_MAJOR_VERSION(), ver_CURRENT_MAJOR_VERSION());
+			snprintf(minorVersion, sizeof(minorVersion), "Hexlet minor version number: %i ($%1X)", ver_CURRENT_MINOR_VERSION(), ver_CURRENT_MINOR_VERSION());
+			snprintf(buildVersion, sizeof(buildVersion), "Hexlet build version number: %i ($%1X)", ver_CURRENT_BUILD_VERSION(), ver_CURRENT_BUILD_VERSION());
+			snprintf(hiveCraftVersion, sizeof(hiveCraftVersion), "Latest HiveCraft version supported: %i (--soc $%2X)", ver_MAX_HIVECRAFT_VERSION(), ver_MAX_HIVECRAFT_VERSION());
+			
+			log_printInfo(majorVersion);
+			log_printInfo(minorVersion);
+			log_printInfo(buildVersion);
 			log_printInfo("");
 			
-			log_printInfo("Latest HiveCraft version supported: %i (--soc $%2X)", ver_MAX_HIVECRAFT_VERSION(), ver_MAX_HIVECRAFT_VERSION());
+			log_printInfo(hiveCraftVersion);
 			log_printInfo("");
 			
 			return 0;
@@ -109,11 +121,9 @@ s32 main_parseArgs(s32 argc, char **argv) {
 			main_logDesc();
 			
 			log_printInfo("Hexheld fantasy console specification by:");
-			log_indent();
-			log_printInfo("The Beesh-Spweesh! (https://github.com/StinkerB06)");
-			log_printInfo("jvsTSX (https://github.com/jvsTSX)");
-			log_printInfo("Kagamiin~ (https://github.com/Kagamiin)");
-			log_dedent();
+			log_printInfo("\tThe Beesh-Spweesh! (https://github.com/StinkerB06)");
+			log_printInfo("\tjvsTSX (https://github.com/jvsTSX)");
+			log_printInfo("\tKagamiin~ (https://github.com/Kagamiin)");
 			log_printInfo("");
 			
 			return 0;
@@ -240,7 +250,6 @@ int main(int argc, char **argv) {
 	if(!exitCode) return 0;
 	else if(exitCode < 0) {
 		log_printError("Command line argument parsing failed.");
-		return
+		return -1;
 	}
-	
 }

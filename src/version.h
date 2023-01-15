@@ -1,4 +1,4 @@
-/* Internal header file for Hexlet's versioning system */
+/* Internal header file for Hexlet's versioning utilities (should not be edited manually) */
 
 #ifndef HEXLET_VER_H_INTERNAL
 #define HEXLET_VER_H_INTERNAL
@@ -17,7 +17,7 @@ static ver_Version ver_version001 = {
 *  This has to be done at runtime because the compiler might not let it through otherwise.
 */
 static inline void ver_initVersionDatabase() {
-	ver_emulatorVersions[0] = ver_version001;
+	ver_emulatorVersions[0x000] = ver_version001;
 }
 
 #endif

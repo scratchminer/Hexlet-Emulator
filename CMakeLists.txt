@@ -65,6 +65,7 @@ set(INTERNAL_SRCS
 #	${SOURCE_DIR}/disassembler.c
 #	${SOURCE_DIR}/graphics.c
 #	${SOURCE_DIR}/loader.c
+	${SOURCE_DIR}/logger.c
 #	${SOURCE_DIR}/pilot.c
 	${SOURCE_DIR}/version.c
 )
