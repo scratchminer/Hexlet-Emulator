@@ -9,15 +9,16 @@ An emulator for the [Hexheld](https://github.com/Hexheld), a quirky fantasy cons
 
 ## Dependencies
 - *The emulator itself* has no external dependencies, but the drivers are allowed to have as many as needed.
-- *The sample driver* uses SDL2 as its only dependency, but feel free to replace it in `CMakeLists.txt`.
+- *The sample driver* uses SDL2 as its only dependency, but feel free to add your own, then replace the `DRIVER` variable in `CMakeLists.txt`.
 
 ## Building
 I used to provide a build script for each OS, but that was harder to maintain and less in the spirit of the project.
 CMake is used because it works on all major operating systems and supports C the best.
 
-From the command line:
 
-- Install [CMake](https://cmake.org/)
+Before building, install [SDL2](https://libsdl.org/) and [CMake](https://cmake.org/).
+
+From the command line:
 - Create a build directory and `cd` to it
 - `cmake ..`
 - `make`
