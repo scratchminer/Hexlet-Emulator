@@ -1,7 +1,7 @@
-/* Internal header file for Hexlet's logger */
+/* Header file for Hexlet's SDL2 logger */
 
-#ifndef HEXLET_LOG_H_INTERNAL
-#define HEXLET_LOG_H_INTERNAL
+#ifndef HEXLET_LOG_H
+#define HEXLET_LOG_H
 
 #include <hexlet_ints.h>
 

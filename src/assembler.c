@@ -7,7 +7,7 @@
 #include <string.h>
 
 #include <hexlet_ints.h>
-#include <hexlet_errs.h>
+#include "errors.h"
 
 #include "assembler.h"
 

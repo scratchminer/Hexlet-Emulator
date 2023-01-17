@@ -8,32 +8,19 @@
 #include "memory.h"
 
 typedef u16 cpu_StatusRegMask;
-#define cpu_FLAG_IRQ7_EN	0x8000
-#define cpu_FLAG_IRQ6_EN	0x4000
-#define cpu_FLAG_IRQ5_EN	0x2000
-#define cpu_FLAG_IRQ4_EN	0x1000
-#define cpu_FLAG_IRQ3_EN	0x0800
-#define cpu_FLAG_IRQ2_EN	0x0400
-#define cpu_FLAG_IRQ1_EN	0x0200
-#define cpu_FLAG_IRQ0_EN	0x0100
-
-#define cpu_FLAG_SIGN		0x0020
-#define cpu_FLAG_ZERO		0x0010
-#define cpu_FLAG_MASTER_IRQ_EN	0x0008
-#define cpu_FLAG_HALF_CARRY	0x0004
-#define cpu_FLAG_OVERFLOW	0x0002
-#define cpu_FLAG_CARRY		0x0001
+#define cpu_IRQ_LEVEL_MASK	0x0700
+#define cpu_FLAG_SIGN		0x0080
+#define cpu_FLAG_ZERO		0x0040
+#define cpu_FLAG_OVERFLOW	0x0004
+#define cpu_FLAG_DECIMAL	0x0002
+#define cpu_FLAG_EXTEND		0x0001
 
 typedef struct {
-	u32 regs[7];
-	u32 stackPointer;
+	u32 regs[8];
 	u16 statusReg;
-} cpu_Registers;
-
-typedef struct {
-	cpu_Registers *regs;
 	u32 programCounter;
 	
+	/* Spweesh, if you're reading this, is this still supposed to be here? */
 	u16 prefetchQueue[2];
 } cpu_Pilot;
 

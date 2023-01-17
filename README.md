@@ -4,7 +4,7 @@ An emulator for the [Hexheld](https://github.com/Hexheld), a quirky fantasy cons
 
 ## Advantages
 - Hexlet is designed to be portable across a wide variety of systems. 
-- Its statically linked driver system has a standard interface and file structure, so anyone can implement a driver in C.
+- Its static driver system has a standard interface and file structure, so anyone can implement a driver in C.
 - A sample driver using SDL2 is provided so it will build out of the box.
 
 ## Dependencies
@@ -22,4 +22,4 @@ From the command line:
 - `cmake ..`
 - `make`
 
-Then run `build/bin/hexlet`.
+Then run `./bin/hexlet`.

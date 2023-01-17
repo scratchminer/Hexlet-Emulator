@@ -1,23 +1,21 @@
-/* Main source file for Hexlet */
+/* Main source file for Hexlet's sample SDL2 driver */
 
-#include <ctype.h>
 #include <stdio.h>
 #include <string.h>
 
 #include <hexlet_ints.h>
 #include <hexlet_bools.h>
 #include <hexlet_driver.h>
+#include <hexlet_version.h>
 
-#include "assembler.h"
 #include "logger.h"
-#include "version.h"
 
 /* Various command line arguments */
-boolean main_nintendoControllerMap = FALSE;
-u8 main_displayScale = 1;
-u8 main_usedHiveCraftVersion;
+boolean drv_nintendoControllerMap = FALSE;
+u8 drv_displayScale = 1;
+u8 drv_usedHiveCraftVersion;
 
-static inline void main_logDesc(void) {
+static inline void drv_logDesc(void) {
 	char version[128];
 	char versionNum[16];
 	
@@ -33,22 +31,31 @@ static inline void main_logDesc(void) {
 /*
 *  Return a negative number on failure, 0 for an immediate exit, and a positive number on success.
 */
-s32 main_parseArgs(s32 argc, char **argv) {
+s32 drv_parseArgs(s32 argc, char **argv) {
 	boolean parseVersion = FALSE;
 	boolean parseScale = FALSE;
-	s32 exitCode = 0; 
+	s32 exitCode = 0;
+	
+	if(argc == 0) {
+		drv_logDesc();
+		
+		log_printInfo("Usage: hexlet [options] [input file]");
+		log_printInfo("");
+		
+		return 0;
+	}
 	
 	for(s32 c = 0; c < argc; ++c) {
 		char *arg = argv[c];
 		
 		if(parseVersion) {
 			s32 version = asm_decodeConstant(arg);
-			if(strcmp(asm_getError(), "") && !version || version > ver_emulatorVersions[main_usedHiveCraftVersion].maxHiveCraftVersion) {
+			if(strcmp(asm_getError(), "") && !version || version > ver_emulatorVersions[drv_usedHiveCraftVersion].maxHiveCraftVersion) {
 				log_printError("Invalid SoC version number.");
 				exitCode = -1;
 			}
 			else {
-				main_usedHiveCraftVersion = (u8)version;
+				drv_usedHiveCraftVersion = (u8)version;
 			}
 			
 			parseVersion = FALSE;
@@ -62,7 +69,7 @@ s32 main_parseArgs(s32 argc, char **argv) {
 				exitCode = -1;
 			}
 			else {
-				main_displayScale = (u8)scale;
+				drv_displayScale = (u8)scale;
 			}
 			
 			parseScale = FALSE;
@@ -72,7 +79,7 @@ s32 main_parseArgs(s32 argc, char **argv) {
 		if(arg[0] == '-' && arg[1] != '-') ++arg;
 		
 		if(arg[0] == 'h' || !strcmp(arg, "--help")) {
-			main_logDesc();
+			drv_logDesc();
 			
 			log_printInfo("Usage: hexlet [options] [input file]");
 			log_printInfo("");
@@ -99,7 +106,7 @@ s32 main_parseArgs(s32 argc, char **argv) {
 			return 0;
 		}
 		else if(arg[0] == 'v' || !strcmp(arg, "--version")) {
-			main_logDesc();
+			drv_logDesc();
 			
 			char majorVersion[128];
 			char minorVersion[128];
@@ -122,7 +129,7 @@ s32 main_parseArgs(s32 argc, char **argv) {
 			return 0;
 		}
 		else if(arg[0] == 'c' || !strcmp(arg, "--credits")) {
-			main_logDesc();
+			drv_logDesc();
 			
 			log_printInfo("Hexheld fantasy console specification by:");
 			log_printInfo("\tThe Beesh-Spweesh! (https://github.com/StinkerB06)");
@@ -134,11 +141,11 @@ s32 main_parseArgs(s32 argc, char **argv) {
 		}
 		
 		else if(arg[0] == 'n' || !strcmp(arg, "--ninmap")) {
-			main_nintendoControllerMap = TRUE;
+			drv_nintendoControllerMap = TRUE;
 			continue;
 		}
 		else if(arg[0] == 'b' || !strcmp(arg, "--bindings")) {
-			main_logDesc();
+			drv_logDesc();
 			
 			log_printInfo("General Purpose Controls:");
 			log_startTable(3);
@@ -162,7 +169,7 @@ s32 main_parseArgs(s32 argc, char **argv) {
 			
 			log_printTable("W/A/S/D",	"Left Stick or Up/Left/Down/Right",		"D-pad (D-pad Controller)");
 			
-			if(!main_nintendoControllerMap) {
+			if(!drv_nintendoControllerMap) {
 				log_printTable("Z/X/A/S",	"Down/Right/Left/Up",				"A/B/1/2 buttons (Button Controller)");
 			}
 			else {
@@ -184,14 +191,14 @@ s32 main_parseArgs(s32 argc, char **argv) {
 			
 			log_printTable("I/J/K/L",	"Right Stick or Up/Left/Down/Right",		"D-pad (D-pad Controller)");
 			
-			if(!main_nintendoControllerMap) {
+			if(!drv_nintendoControllerMap) {
 				log_printTable(",/./K/L",	"A/B/X/Y (or X/O/Square/Triangle)",		"A/B/1/2 buttons (Button Controller)");
 			}
 			else {
 				log_printTable(",/./K/L",	"A/B/X/Y",					"A/B/1/2 buttons (Button Controller)");
 			}
 			
-			if(!main_nintendoControllerMap) {
+			if(!drv_nintendoControllerMap) {
 				log_printTable("K/L",		"X/Y (or Square/Triangle)",		"Paddle CCW/CW (Paddle Controller)");
 				log_printTable("",		"Rotate Left Stick",			"");
 			}
@@ -225,15 +232,15 @@ s32 main_parseArgs(s32 argc, char **argv) {
 			continue;
 		}
 		else if(arg[0] == '2') {
-			main_displayScale = 2;
+			drv_displayScale = 2;
 			continue;
 		}
 		else if(arg[0] == '3') {
-			main_displayScale = 3;
+			drv_displayScale = 3;
 			continue;
 		}
 		else if(arg[0] == '4') {
-			main_displayScale = 4;
+			drv_displayScale = 4;
 			continue;
 		}
 	}
@@ -242,16 +249,16 @@ s32 main_parseArgs(s32 argc, char **argv) {
 }
 
 int main(int argc, char **argv) {
-	/* gotta do this at runtime... */
-	ver_initVersionDatabase();
-	main_usedHiveCraftVersion = ver_MAX_HIVECRAFT_VERSION();
+	drv_usedHiveCraftVersion = ver_MAX_HIVECRAFT_VERSION();
 	
-	u32 exitCode = main_parseArgs((s32)argc, argv);
+	u32 exitCode = drv_parseArgs((s32)argc, argv);
 	if(!exitCode) return 0;
 	else if(exitCode < 0) {
 		log_printError("Command line argument parsing failed.");
 		return -1;
 	}
+	
+	// gfx_initDriver(drv_displayScale);
 	
 	return 0;
 }

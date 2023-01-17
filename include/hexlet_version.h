@@ -13,7 +13,7 @@ typedef struct {
 	u8 maxChipType;				/* Maximum value of the ROM loader's ldr_ChipType enumeration */
 } ver_Version;
 
-ver_Version ver_emulatorVersions[ver_LATEST_VERSION];
+extern ver_Version ver_emulatorVersions[ver_LATEST_VERSION];
 
 /*
 *  Get the human-readable version string corresponding to the given ver_Version and place it into the destination.
@@ -23,7 +23,7 @@ char *ver_getVersionString(char *dest, ver_Version *version);
 /*
 *  Get the running version of Hexlet as a ver_Version.
 */
-ver_Version *ver_getLatestVersion();
+ver_Version *ver_getLatestVersion(void);
 
 /*
 *  Macros to help with version number decoding.
