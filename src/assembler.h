@@ -6,7 +6,7 @@
 #include <hexlet_ints.h>
 
 /*
-*  Get the string representing the last error from the graphics engine.
+*  Get the string representing the last error from the assembler
 */
 char *asm_getError(void);
 
