@@ -32,12 +32,7 @@ boolean drv_setBacklight(u8 r, u8 g, u8 b);
 boolean drv_setSevenSegment(gfx_SevenSegmentIndexMask indexMask, gfx_SevenSegmentMask segmentMask);
 
 /*
-*  Main method.
-*/
-int main(int argc, char **argv);
-
-/*
-*  Macros so you can use gfx_function() instead of drv_function()
+*  Macros so gfx_<functionName>() can be used for multi-file drivers
 */
 #define gfx_plotPix drv_plotPix
 #define gfx_copyRect drv_copyRect

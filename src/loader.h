@@ -34,9 +34,7 @@ typedef struct {
 	
 	ldr_ChipType cs1;
 	ldr_ChipType cs2;
-	
-	u8 startingBusCtrl;
-	
+		
 	u8 minHiveCraftVersion;
 	
 	u16 copyrightStartYear;

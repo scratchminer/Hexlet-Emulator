@@ -6,6 +6,7 @@
 #include <hexlet_ints.h>
 #include <hexlet_bools.h>
 #include <hexlet_driver.h>
+#include <hexlet_emulate.h>
 #include <hexlet_version.h>
 
 #include "logger.h"
@@ -49,8 +50,8 @@ s32 drv_parseArgs(s32 argc, char **argv) {
 		char *arg = argv[c];
 		
 		if(parseVersion) {
-			s32 version = asm_decodeConstant(arg);
-			if(strcmp(asm_getError(), "") && !version || version > ver_emulatorVersions[drv_usedHiveCraftVersion].maxHiveCraftVersion) {
+			s32 version = emu_decodeConstant(arg);
+			if(strcmp(emu_getError(), "") && !version || version > ver_emulatorVersions[drv_usedHiveCraftVersion].maxHiveCraftVersion) {
 				log_printError("Invalid SoC version number.");
 				exitCode = -1;
 			}
@@ -63,8 +64,8 @@ s32 drv_parseArgs(s32 argc, char **argv) {
 		}
 		
 		if(parseScale) {
-			s32 scale = asm_decodeConstant(arg);
-			if(strcmp(asm_getError(), "") && !scale || scale > 4 || scale < 1) {
+			s32 scale = emu_decodeConstant(arg);
+			if(strcmp(emu_getError(), "") && !scale || scale > 4 || scale < 1) {
 				log_printError("Invalid display scale (should be between 1 and 4).");
 				exitCode = -1;
 			}

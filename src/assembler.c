@@ -4,7 +4,6 @@
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #include <hexlet_ints.h>
 #include "errors.h"
@@ -17,9 +16,9 @@ char *asm_getError(void) {
 	return asm_errorString;
 }
 
-u32 asm_decodeConstant(char *number) {
+s32 asm_decodeConstant(char *number) {
 	char *copy = number;
-	u8 base = 0;
+	u8 base = 10;
 	
 	/* Make sure the prefix is stripped from the number, then predict its base */
 	if(!isxdigit(*copy)) {
@@ -31,7 +30,8 @@ u32 asm_decodeConstant(char *number) {
 			base = 16;
 			break;
 		default:
-			break;
+			snprintf(asm_errorString, err_MAX_ERR_SIZE, "Error decoding base prefix: '%c'", *copy);
+			return 0;
 		}
 		++copy;
 	}
@@ -39,9 +39,10 @@ u32 asm_decodeConstant(char *number) {
 	/* Needed for strtol(), but unused afterward */
 	char *strPart;
 	
+	/* Check for errors */
 	errno = 0;
-	u32 ret = (u32)strtol(copy, &strPart, base);
+	s32 ret = (s32)strtol(copy, &strPart, base);
 	
-	if(errno) snprintf(asm_errorString, err_MAX_ERR_SIZE, "Error decoding number with base %i: %s", base, number);
+	if(errno) snprintf(asm_errorString, err_MAX_ERR_SIZE, "Error decoding number with base %i: '%s'", base, number);
 	return ret;
 }

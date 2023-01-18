@@ -6,13 +6,11 @@
 #include <hexlet_ints.h>
 
 /*
-*  Returns the last error from the assembler
+*  Get the string representing the last error from the graphics engine.
 */
 char *asm_getError(void);
 
-/*
-*  Decode a constant value (used elsewhere for command line argument parsing)
-*/
-u32 asm_decodeConstant(char *number);
+/* alias emu_decodeConstant() so we can keep the "asm_" prefix */
+#define asm_decodeConstant emu_decodeConstant
 
 #endif
