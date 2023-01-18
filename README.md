@@ -1,6 +1,5 @@
 # Hexlet
-
-An emulator for the [Hexheld](https://github.com/Hexheld), a quirky fantasy console with a hexagonal LCD
+A [Hexheld](https://github.com/Hexheld) emulator with a focus on portability and performance.
 
 ## Advantages
 - Hexlet is designed to be portable across a wide variety of systems. 

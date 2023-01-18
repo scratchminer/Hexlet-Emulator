@@ -24,7 +24,7 @@ static inline void drv_logDesc(void) {
 	
 	log_printInfo("");
 	log_printInfo(version);
-	log_printInfo("A Hexheld emulator with a focus on performance and optimization");
+	log_printInfo("A Hexheld emulator with a focus on portablility and performance");
 	log_printInfo("By scratchminer (https://github.com/scratchminer)");
 	log_printInfo("");
 }
