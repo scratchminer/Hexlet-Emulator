@@ -3,12 +3,13 @@
 #ifndef HEXLET_LDR_H
 #define HEXLET_LDR_H
 
+#include <hexlet_ints.h>
 #include <hexlet_bools.h>
 
 typedef u8 ldr_StateFileFlags;
 #define ldr_STATE_FILE_FLAG_STORE_WRAM	0x80
 #define ldr_STATE_FILE_FLAG_STORE_VRAM	0x40
-#define ldr_STATE_FILE_FLAG_STORE_TMRAM	0x20
+#define ldr_STATE_FILE_FLAG_STORE_HRAM	0x20
 #define ldr_STATE_FILE_FLAG_STORE_CPU	0x10
 #define ldr_STATE_FILE_FLAG_STORE_CS1	0x08
 #define ldr_STATE_FILE_FLAG_STORE_CS2	0x04
@@ -24,7 +25,7 @@ char *ldr_getError(void);
 *  Return FALSE on failure or TRUE on success.
 *  If length is 0, this will read from the buffer until a valid ROM image has been constructed.
 */
-boolean ldr_loadROMImage(u8 *data, u32 length);
+boolean ldr_loadROMImage(void *data, u32 length);
 
 /*
 *  Get the size in bytes of the loaded ROM image as a file. Return 0 on failure.

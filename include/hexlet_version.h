@@ -8,9 +8,9 @@
 #define ver_LATEST_VERSION 0x001
 
 typedef struct {	
-	u16 versionNumber;			/* Version number */
-	u8 maxHiveCraftVersion;			/* Maximum supported version of the HiveCraft */
-	u8 maxChipType;				/* Maximum value of the ROM loader's ldr_ChipType enumeration */
+	u16 versionNumber;		/* Version number */
+	u8 maxHiveCraftVersion;		/* Maximum supported version of the HiveCraft */
+	u8 maxChipType;			/* Maximum value of the ROM loader's ldr_ChipType enumeration */
 } ver_Version;
 
 extern ver_Version ver_emulatorVersions[ver_LATEST_VERSION];

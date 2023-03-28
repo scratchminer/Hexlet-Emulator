@@ -4,7 +4,7 @@ A [Hexheld](https://github.com/Hexheld) emulator with a focus on portability and
 ## Advantages
 - Hexlet is designed to be portable across a wide variety of systems. 
 - Its static driver system has a standard interface and file structure, so anyone can implement a driver in C.
-- A sample driver using SDL2 is provided so it will build out of the box.
+- A sample driver using SDL2 is provided so it will work out of the box.
 
 ## Dependencies
 - *The emulator itself* has no external dependencies, but the drivers are allowed to have as many as needed.

@@ -17,6 +17,8 @@ char *asm_getError(void) {
 }
 
 s32 asm_decodeConstant(char *number) {
+	snprintf(asm_errorString, err_MAX_ERR_SIZE, "");
+	
 	char *copy = number;
 	u8 base = 10;
 	

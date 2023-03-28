@@ -10,7 +10,16 @@
 */
 char *asm_getError(void);
 
-/* alias emu_decodeConstant() so we can keep the "asm_" prefix */
-#define asm_decodeConstant emu_decodeConstant
+s32 asm_decodeConstant(char *number);
+
+/* alias emu_getError() so we can keep the "asm_" prefix */
+char *emu_getError(void) {
+	return asm_getError();
+}
+
+/* same for emu_decodeConstant() */
+s32 emu_decodeConstant(char *number) {
+	return asm_decodeConstant(number);
+}
 
 #endif

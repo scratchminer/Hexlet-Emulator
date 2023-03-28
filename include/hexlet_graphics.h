@@ -45,4 +45,9 @@ typedef struct {
 	} data;
 } gfx_Rect;
 
+/*
+*  Get the string representing the last error from the graphics engine.
+*/
+char *gfx_getError(void);
+
 #endif

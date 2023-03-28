@@ -46,7 +46,7 @@ if(MSVC)
 	add_definitions("/D\"_CRT_NONSTDC_NO_DEPRECATE\"")
 	
 	# For more than one build configuration, all of them should be in the binary folder
-	foreach(OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
+	foreach(OUTPUT_CONFIG ${CMAKE_CONFIGURATION_TYPES})
 		string(TOUPPER ${OUTPUT_CONFIG} OUTPUT_CONFIG)
 		set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUT_CONFIG} ${BINARY_DIR})
 	endforeach()
@@ -59,7 +59,8 @@ target_sources(hexlet PRIVATE
 	${SOURCE_DIR}/assembler.c
 #	${SOURCE_DIR}/disassembler.c
 #	${SOURCE_DIR}/graphics.c
-#	${SOURCE_DIR}/loader.c
+	${SOURCE_DIR}/loader.c
+#	${SOURCE_DIR}/memory.c
 	${SOURCE_DIR}/pilot.c
 	${SOURCE_DIR}/version.c
 )

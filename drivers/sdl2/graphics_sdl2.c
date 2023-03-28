@@ -16,8 +16,13 @@ SDL_Window *sdlWindow;
 SDL_Surface *sdlSurf;
 
 boolean gfx_initDriver(u8 displayScale) {
+	
+	char *lastError;
+	
 	/* SDL initialization */
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+		lastError = SDL_GetError();
+		
 		snprintf(lastError, sizeof(lastError), "Failed to initialize SDL:\n\t\t%s", SDL_GetError());
 		return FALSE;
 	}
@@ -27,12 +32,14 @@ boolean gfx_initDriver(u8 displayScale) {
 		displayScale * SCREEN_WIDTH, displayScale * SCREEN_HEIGHT, 
 		0);
 	if(!sdlWindow) {
+		lastError = SDL_GetError();
 		snprintf(lastError, sizeof(lastError), "Failed to create an SDL window:\n\t\t%s", SDL_GetError());
 		return FALSE;
 	}
 	
 	sdlSurf = SDL_GetWindowSurface(sdlWindow);
 	if(!sdlSurf) {
+		lastError = SDL_GetError();
 		snprintf(lastError, sizeof(lastError), "Failed to create an SDL surface from a window: \n\t\t%s", SDL_GetError());
 		return FALSE;
 	}
