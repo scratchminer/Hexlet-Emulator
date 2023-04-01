@@ -16,6 +16,7 @@ typedef struct {
 #define mem_WRAM_SIZE 16384
 #define mem_VRAM_SIZE 32768
 #define mem_TMRAM_SIZE 4096
+#define mem_HRAM_SIZE 3072
 
 typedef struct {
 	u16 wram[mem_WRAM_SIZE];
@@ -28,6 +29,7 @@ typedef struct {
 	u8 *rom;
 	
 	u8 tmram[mem_TMRAM_SIZE];
+	u8 hram[mem_HRAM_SIZE];
 	
 	/* used for debugging */
 	mem_Bus cpuBus;

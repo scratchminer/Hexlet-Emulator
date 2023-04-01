@@ -7,8 +7,8 @@
 #include <hexlet_bools.h>
 
 typedef u8 mem_BusType;
-#define mem_BUS_TYPE_CPU		0x01
-#define mem_BUS_TYPE_PPU		0x02
+#define mem_BUS_TYPE_CPU	0x01
+#define mem_BUS_TYPE_PPU	0x02
 #define mem_BUS_TYPE_HEXRIDGE	0x04
 
 /* By default, Hexlet monitors no buses to save host CPU time. */

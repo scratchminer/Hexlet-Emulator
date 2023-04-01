@@ -9,11 +9,12 @@
 typedef u8 ldr_StateFileFlags;
 #define ldr_STATE_FILE_FLAG_STORE_WRAM	0x80
 #define ldr_STATE_FILE_FLAG_STORE_VRAM	0x40
-#define ldr_STATE_FILE_FLAG_STORE_HRAM	0x20
-#define ldr_STATE_FILE_FLAG_STORE_CPU	0x10
-#define ldr_STATE_FILE_FLAG_STORE_CS1	0x08
-#define ldr_STATE_FILE_FLAG_STORE_CS2	0x04
-#define ldr_STATE_FILE_FLAG_STORE_OAM	0x02
+#define ldr_STATE_FILE_FLAG_STORE_TMRAM	0x20
+#define ldr_STATE_FILE_FLAG_STORE_HRAM	0x10
+#define ldr_STATE_FILE_FLAG_STORE_CPU	0x08
+#define ldr_STATE_FILE_FLAG_STORE_CS1	0x04
+#define ldr_STATE_FILE_FLAG_STORE_CS2	0x02
+#define ldr_STATE_FILE_FLAG_STORE_OAM	0x01
 
 /*
 *  Get the error message representing the last error from the loader.
