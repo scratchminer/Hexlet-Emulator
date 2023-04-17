@@ -13,7 +13,7 @@ typedef struct {
 	u16 data;
 } mem_Bus;
 
-#define mem_WRAM_SIZE 16384
+#define mem_WRAM_SIZE 32768
 #define mem_VRAM_SIZE 32768
 #define mem_TMRAM_SIZE 4096
 #define mem_HRAM_SIZE 3072
