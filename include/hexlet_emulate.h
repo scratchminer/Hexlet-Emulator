@@ -20,6 +20,6 @@ s32 emu_decodeConstant(char *number);
 *  Return FALSE on failure or TRUE on success.
 *  Note: You don't have to pass the buffer of the previous frame; it can be any gfx_Bitmap. This could be useful for a debugger.
 */
-boolean emu_tick(gfx_Bitmap *screen);
+//bool emu_tick(gfx_Bitmap *screen);
 
 #endif

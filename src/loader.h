@@ -20,7 +20,7 @@ const int endianCheck = 1;
 
 typedef u8 ldr_ChipType;
 #define ldr_CHIP_TYPE_NONE 0x00
-#define ldr_CHIP_TYPE_NVRAM 0x01
+#define ldr_CHIP_TYPE_NVRAM_8K 0x01
 
 /* more stuff would go here... */
 
@@ -54,10 +54,10 @@ typedef struct {
 } ldr_StateFileChunk;
 
 typedef struct {
-	ldr_ROMHeader *header;
-	ldr_StateFileChunk *rom;
-	ldr_StateFileChunk *cs1;
-	ldr_StateFileChunk *cs2;
+	ldr_ROMHeader header;
+	ldr_StateFileChunk rom;
+	ldr_StateFileChunk cs1;
+	ldr_StateFileChunk cs2;
 } ldr_ROMImage;
 
 #define ldr_STATE_FILE_MAGIC "Hexlet\x1b"

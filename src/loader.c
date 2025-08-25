@@ -11,7 +11,7 @@
 #include "loader.h"
 #include "memory.h"
 
-char ldr_errorString[err_MAX_ERR_SIZE];
+static char ldr_errorString[err_MAX_ERR_SIZE];
 static ldr_ROMImage ldr_currentROM;
 static ldr_StateFileChunk cs2Chunk;
 static ldr_StateFileChunk cs1Chunk;
@@ -20,10 +20,10 @@ char *ldr_getError(void) {
 	return ldr_errorString;
 }
 
-boolean ldr_loadROMImage(void *data, u32 length) {
+bool ldr_loadROMImage(void *data, u32 length) {
 	snprintf(ldr_errorString, err_MAX_ERR_SIZE, "");
 	
-	if(length < 256) {
+	if (length > 0 && length < 256) {
 		snprintf(ldr_errorString, err_MAX_ERR_SIZE, "Error loading ROM: length must be at least 256 bytes");
 		return FALSE;
 	}
@@ -32,13 +32,13 @@ boolean ldr_loadROMImage(void *data, u32 length) {
 	memset(&header, 0, sizeof(header));
 	
 	memcpy(header.data, data, 256);
-	boolean noErrors = TRUE;
+	bool noErrors = TRUE;
 	
 	char *ptrStr = data;
 	snprintf(header.title, 128, "%s", ptrStr);
 	snprintf(header.author, 96, "%s", (ptrStr += 128));
 	
-	if(!strncmp(ptrStr += 96, ldr_ROM_IMAGE_MAGIC, 16)){
+	if (!strncmp(ptrStr += 96, ldr_ROM_IMAGE_MAGIC, 16)){
 		snprintf(ldr_errorString, err_MAX_ERR_SIZE, "Error loading ROM: Incorrect magic sequence");
 		noErrors = FALSE;
 	}
@@ -49,7 +49,7 @@ boolean ldr_loadROMImage(void *data, u32 length) {
 	header.cs1 = *(++ptrByte);
 	header.cs2 = *(++ptrByte);
 	header.minHiveCraftVersion = *ptrByte;
-	if(header.minHiveCraftVersion > ver_MAX_HIVECRAFT_VERSION() && noErrors) {
+	if (header.minHiveCraftVersion > ver_MAX_HIVECRAFT_VERSION() && noErrors) {
 		snprintf(ldr_errorString, err_MAX_ERR_SIZE, "Error loading ROM: Emulator is too old (needs SoC version $%.02X)", header.minHiveCraftVersion);
 		noErrors = FALSE;
 	}
@@ -64,19 +64,19 @@ boolean ldr_loadROMImage(void *data, u32 length) {
 	ptrWord += 2;
 	header.crc = ldr_LITTLE_ENDIAN_16(*ptrWord);
 	
-	ldr_currentROM.header = &header;
+	ldr_currentROM.header = header;
 	
 	u32 offset = 256;
 	ptrByte = data;
 	
-	if(offset < length) {
+	if (length == 0 || offset < length) {
 		ldr_StateFileChunk romChunk;
 		romChunk.length = ldr_LITTLE_ENDIAN_32(*(ptrByte + offset)) & 0xffffff;
-	
-		if((offset += 2) < length && (length - offset) > romChunk.length) {
+		
+		if (length == 0 || ((offset += 2) < length && (length - offset) > romChunk.length)) {
 			romChunk.data = ptrByte + offset;
 			offset += romChunk.length;
-			ldr_currentROM.rom = &romChunk;
+			ldr_currentROM.rom = romChunk;
 		}
 		else {
 			snprintf(ldr_errorString, err_MAX_ERR_SIZE, "Error loading ROM: Incomplete ROM chunk detected");
@@ -88,14 +88,15 @@ boolean ldr_loadROMImage(void *data, u32 length) {
 		return FALSE;
 	}
 	
-	if(offset < length) {
-		if((header.cs1 & ldr_CHIP_TYPE_STORED)) {
+	if (length == 0 || offset < length) {
+		if ((header.cs1 & ldr_CHIP_TYPE_STORED)) {
+			ldr_StateFileChunk cs1Chunk;
 			cs1Chunk.length = ldr_LITTLE_ENDIAN_32(*(ptrByte + offset)) & 0xffffff;
-	
-			if((offset += 2) < length && (length - offset) > cs1Chunk.length) {
+			
+			if (length == 0 || ((offset += 2) < length && (length - offset) > cs1Chunk.length)) {
 				cs1Chunk.data = ptrByte + offset;
 				offset += cs1Chunk.length;
-				ldr_currentROM.cs1 = &cs1Chunk;
+				ldr_currentROM.cs1 = cs1Chunk;
 			}
 			else {
 				snprintf(ldr_errorString, err_MAX_ERR_SIZE, "Error loading ROM: Incomplete CS1 chunk detected");
@@ -107,14 +108,15 @@ boolean ldr_loadROMImage(void *data, u32 length) {
 		return TRUE;
 	}
 	
-	if(offset < length) {
-		if((header.cs1 & ldr_CHIP_TYPE_STORED)) {
+	if (length == 0 || offset < length) {
+		if ((header.cs2 & ldr_CHIP_TYPE_STORED)) {
+			ldr_StateFileChunk cs2Chunk;
 			cs2Chunk.length = ldr_LITTLE_ENDIAN_32(*(ptrByte + offset)) & 0xffffff;
-	
-			if((offset += 2) < length && (length - offset) > cs2Chunk.length) {
+			
+			if (length == 0 || ((offset += 2) < length && (length - offset) > cs2Chunk.length)) {
 				cs2Chunk.data = ptrByte + offset;
 				offset += cs2Chunk.length;
-				ldr_currentROM.cs1 = &cs2Chunk;
+				ldr_currentROM.cs1 = cs2Chunk;
 			}
 			else {
 				snprintf(ldr_errorString, err_MAX_ERR_SIZE, "Error loading ROM: Incomplete CS2 chunk detected");

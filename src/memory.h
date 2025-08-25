@@ -8,7 +8,7 @@
 #include <hexlet_memory.h>
 
 typedef struct {
-	boolean monitored;
+	bool monitored;
 	u32 address;
 	u16 data;
 } mem_Bus;
@@ -19,17 +19,17 @@ typedef struct {
 #define mem_HRAM_SIZE 3072
 
 typedef struct {
-	u16 wram[mem_WRAM_SIZE];
+	u16 wram[mem_WRAM_SIZE / 2];
 	u8 vram[mem_VRAM_SIZE];
 	
 	/* could be set on a write to the boot ROM? */
-	boolean bootRomLock;
+	bool bootRomLock;
 	
 	u32 romLength;
 	u8 *rom;
 	
 	u8 tmram[mem_TMRAM_SIZE];
-	u8 hram[mem_HRAM_SIZE];
+	u16 hram[mem_HRAM_SIZE / 2];
 	
 	/* used for debugging */
 	mem_Bus cpuBus;
@@ -37,6 +37,6 @@ typedef struct {
 	mem_Bus hexridgeBus;
 } mem_Memory;
 
-mem_Memory *mem_getCurrentMemory();
+mem_Memory *mem_getCurrentMemory(void);
 
 #endif

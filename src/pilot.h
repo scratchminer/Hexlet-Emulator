@@ -1,7 +1,7 @@
 /* Internal header file for Hexlet's Pilot CPU emulator */
 
-#ifndef HEXLET_PILOT_H_INTERNAL
-#define HEXLET_PILOT_H_INTERNAL
+#ifndef HEXLET_CPU_H_INTERNAL
+#define HEXLET_CPU_H_INTERNAL
 
 #include <hexlet_ints.h>
 
@@ -27,6 +27,6 @@ typedef struct {
 *  Perform a single CPU cycle over the specified memory bus.
 *  Note: This method does not check whether the CPU should actually be ticked (e.g. if a DMA is in progress, it shouldn't be).
 */
-void cpu_tickPilot(cpu_Pilot pilot, mem_Memory *memory);
+void cpu_tickPilot(cpu_Pilot *pilot, mem_Memory *memory);
 
 #endif

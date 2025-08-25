@@ -26,7 +26,7 @@ char *ldr_getError(void);
 *  Return FALSE on failure or TRUE on success.
 *  If length is 0, this will read from the buffer until a valid ROM image has been constructed.
 */
-boolean ldr_loadROMImage(void *data, u32 length);
+bool ldr_loadROMImage(void *data, u32 length);
 
 /*
 *  Get the size in bytes of the loaded ROM image as a file. Return 0 on failure.
@@ -36,14 +36,14 @@ u32 ldr_getROMImageSize(void);
 /*
 *  Save the loaded ROM image to the specified data buffer, writing at most length bytes. Return FALSE on failure or TRUE on success.
 */
-boolean ldr_saveROMImage(u8 *data, u32 length);
+bool ldr_saveROMImage(u8 *data, u32 length);
 
 /*
 *  Load a state (standard extension .hxl) from the specified data buffer, reading at most length bytes.
 *  Return FALSE on failure or TRUE on success.
 *  If length is 0, this will read from the buffer until a valid state has been constructed.
 */
-boolean ldr_loadState(u8 *data, u32 length);
+bool ldr_loadState(u8 *data, u32 length);
 
 /*
 *  Get the size in bytes of the specified parts of the state as a file. Return 0 on failure.
@@ -54,6 +54,6 @@ u32 ldr_getStateSize(ldr_StateFileFlags getWhat);
 *  Save the specified parts of the state to the specified data buffer, writing at most length bytes. 
 *  Return FALSE on failure or TRUE on success.
 */
-boolean ldr_saveState(u8 *data, u32 length, ldr_StateFileFlags saveWhat);
+bool ldr_saveState(u8 *data, u32 length, ldr_StateFileFlags saveWhat);
 
 #endif

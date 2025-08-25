@@ -38,7 +38,7 @@ typedef struct {
 	u8 width;
 	u8 height;
 	
-	boolean hasPixels;
+	bool hasPixels;
 	union {
 		u8 color;
 		gfx_Bitmap bitmap;

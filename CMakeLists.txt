@@ -1,17 +1,19 @@
 # CMake listfile for Hexlet
 # Based on the one for TIC-80 (https://github.com/nesbox/TIC-80/blob/main/CMakeLists.txt)
 
-cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 
 set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 set(DRIVER_DIR ${CMAKE_SOURCE_DIR}/drivers)
 set(BINARY_DIR ${CMAKE_BINARY_DIR}/bin)
 set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
 
-# Use the default SDL2 driver
-set(DRIVER "sdl2")
+# Use the default SDL3 driver
+set(DRIVER "sdl3")
 
 # DO NOT EDIT BELOW THIS LINE
+
+set(CMAKE_C_STANDARD 99)
 
 project(Hexlet VERSION "0.0.1" LANGUAGES C)
 
@@ -59,9 +61,9 @@ target_sources(hexlet PRIVATE
 	${SOURCE_DIR}/assembler.c
 #	${SOURCE_DIR}/disassembler.c
 #	${SOURCE_DIR}/graphics.c
-	${SOURCE_DIR}/loader.c
+#	${SOURCE_DIR}/loader.c
 #	${SOURCE_DIR}/memory.c
-	${SOURCE_DIR}/pilot.c
+#	${SOURCE_DIR}/pilot.c
 	${SOURCE_DIR}/version.c
 )
 
