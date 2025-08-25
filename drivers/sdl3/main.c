@@ -68,7 +68,7 @@ s32 drv_parseArgs(s32 argc, char **argv) {
 	bool parseScale = FALSE;
 	s32 exitCode = 0;
 	
-	if (argc == 0) {
+	if (argc == 1) {
 		drv_logDesc();
 		
 		log_printInfo("Usage: hexlet [options] [input file]");
@@ -77,7 +77,7 @@ s32 drv_parseArgs(s32 argc, char **argv) {
 		return 0;
 	}
 	
-	for (s32 c = 0; c < argc; c++) {
+	for (s32 c = 1; c < argc; c++) {
 		char *arg = argv[c];
 		
 		if (parseVersion) {
