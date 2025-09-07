@@ -8,9 +8,9 @@
 /* Versions */
 ver_Version ver_emulatorVersions[ver_LATEST_VERSION] = {
 	{
-		0x001,		/* Version number */
-		0x00,		/* Maximum HiveCraft version */
-		0x02		/* Maximum chip type enum value */
+		0x001,	/* Version number */
+		0x00,	/* Maximum HiveCraft version */
+		0x02	/* Maximum chip type enum value */
 	},
 };
 

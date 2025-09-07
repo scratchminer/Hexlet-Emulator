@@ -7,6 +7,8 @@
 #include <hexlet_bools.h>
 #include <hexlet_emulate.h>
 
+#define asm_MAX_PASSES 10000
+
 /*
 *  Assemble the given code string and load it into the current ROM image, returning FALSE on failure or TRUE on success.
 */
